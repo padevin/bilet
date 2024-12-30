@@ -1,102 +1,236 @@
-# Bilet Satış Sistemi
+# 🎫 Bilet Satış Sistemi
 
-Bu proje, çekiliş biletlerinin satışını ve yönetimini sağlayan bir web uygulamasıdır. Kullanıcılar bilet satın alabilir, ödemelerini yapabilir ve bilet bilgilerini e-posta ile alabilirler. Ayrıca, yöneticiler çekilişleri ve bilet satışlarını yönetebilirler.
+Bu proje, çekiliş biletlerinin satışını ve yönetimini sağlayan kapsamlı bir web uygulamasıdır. Modern ve kullanıcı dostu arayüzü ile bilet satışlarını kolayca yönetebilir, ödemeleri takip edebilir ve müşterilerinizle otomatik iletişim kurabilirsiniz.
 
-## Özellikler
+## 📋 İçerik
 
-- Çekiliş oluşturma ve yönetme
-- Bilet satın alma sistemi
-- Otomatik ödeme takibi
-- E-posta bildirimleri
-- Yönetici paneli
-- Bilet durumu takibi
-- Ödeme onaylama sistemi
+- [Özellikler](#özellikler)
+- [Sistem Gereksinimleri](#sistem-gereksinimleri)
+- [Kurulum](#kurulum)
+- [Yapılandırma](#yapılandırma)
+- [Veritabanı](#veritabanı)
+- [E-posta Sistemi](#e-posta-sistemi)
+- [Yönetici Paneli](#yönetici-paneli)
+- [Güvenlik](#güvenlik)
+- [Sorun Giderme](#sorun-giderme)
+- [Sık Sorulan Sorular](#sık-sorulan-sorular)
 
-## Gereksinimler
+## ✨ Özellikler
 
+### 🎯 Çekiliş Yönetimi
+- Sınırsız çekiliş oluşturma
+- Her çekiliş için özel bilet numaraları
+- Çekiliş durumu takibi (aktif/pasif)
+- Çekiliş tarihi ve saat yönetimi
+
+### 🎟️ Bilet İşlemleri
+- Otomatik bilet numarası oluşturma
+- Bilet durumu takibi (müsait/satıldı/beklemede)
+- Toplu bilet oluşturma
+- Bilet iptal ve iade yönetimi
+
+### 💳 Ödeme Sistemi
+- Güvenli ödeme takibi
+- Benzersiz ödeme kodları
+- 10 dakikalık ödeme süresi
+- Otomatik bilet aktivasyonu
+
+### 📧 Bildirim Sistemi
+- Otomatik e-posta bildirimleri
+- Özelleştirilebilir e-posta şablonları
+- Bilet ve ödeme bilgilerinin otomatik gönderimi
+- SMTP entegrasyonu
+
+## 🔧 Sistem Gereksinimleri
+
+### Sunucu Gereksinimleri
 - PHP 7.4 veya üzeri
 - MySQL 5.7 veya üzeri
-- Composer
-- SMTP sunucusu
+- Apache/Nginx web sunucusu
+- mod_rewrite modülü aktif
+- SSL sertifikası (önerilen)
 
-## Kurulum
+### PHP Eklentileri
+- PDO PHP Extension
+- OpenSSL PHP Extension
+- Mbstring PHP Extension
+- Tokenizer PHP Extension
+- XML PHP Extension
+- Ctype PHP Extension
+- JSON PHP Extension
 
-1. Projeyi klonlayın:
+### Yazılım Gereksinimleri
+- Composer (Bağımlılık yönetimi için)
+- Git (Versiyon kontrolü için)
+- SMTP sunucusu (E-posta gönderimi için)
+
+## 🚀 Kurulum
+
+### 1. Projeyi İndirme
 ```bash
+# Projeyi klonlayın
 git clone https://github.com/kullaniciadi/bilet-sistemi.git
+
+# Proje dizinine girin
 cd bilet-sistemi
 ```
 
-2. Composer bağımlılıklarını yükleyin:
+### 2. Bağımlılıkları Yükleme
 ```bash
+# Composer bağımlılıklarını yükleyin
 composer install
+
+# PHPMailer'ı yükleyin
+composer require phpmailer/phpmailer
 ```
 
-3. `.env.example` dosyasını `.env` olarak kopyalayın:
+### 3. Ortam Yapılandırması
 ```bash
+# .env dosyasını oluşturun
 cp .env.example .env
+
+# .env dosyasını düzenleyin
+nano .env
 ```
 
-4. `.env` dosyasını düzenleyin:
-- Veritabanı bilgilerinizi girin
-- SMTP ayarlarınızı yapılandırın
-- Uygulama URL'sini belirleyin
-
-5. Veritabanını oluşturun:
-- `sql/database.sql` dosyasındaki SQL komutlarını veritabanınızda çalıştırın
-
-6. Dosya izinlerini ayarlayın:
+### 4. Veritabanı Kurulumu
 ```bash
+# MySQL'e bağlanın
+mysql -u kullanici -p
+
+# Veritabanını oluşturun
+CREATE DATABASE bilet_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+# SQL dosyasını içe aktarın
+mysql -u kullanici -p bilet_db < sql/database.sql
+```
+
+### 5. Dosya İzinleri
+```bash
+# Dosya izinlerini ayarlayın
 chmod 755 -R *
+chmod 777 -R storage/
 chmod 777 -R error.log
 ```
 
-## Yönetici Paneli
+## ⚙️ Yapılandırma
 
-- URL: `{APP_URL}/admin`
-- Varsayılan kullanıcı adı: `admin`
-- Varsayılan şifre: `admin123`
+### .env Dosyası Ayarları
+```env
+# Veritabanı Ayarları
+DB_HOST=localhost
+DB_NAME=bilet_db
+DB_USER=kullanici
+DB_PASS=sifre
 
-İlk girişten sonra şifrenizi değiştirmeyi unutmayın!
+# SMTP Ayarları
+SMTP_HOST=smtp.example.com
+SMTP_PORT=465
+SMTP_USER=user@example.com
+SMTP_PASS=password
+```
 
-## Güvenlik Önlemleri
+### E-posta Sistemi (PHPMailer)
 
-1. `.env` dosyasını güvenli bir şekilde saklayın
-2. Varsayılan yönetici şifresini değiştirin
-3. Düzenli olarak yedek alın
-4. Hata günlüklerini kontrol edin
+PHPMailer yapılandırması `admin/approve_payment.php` dosyasında bulunmaktadır. Temel ayarlar:
 
-## Özelleştirme
+```php
+$mail = new PHPMailer(true);
+$mail->isSMTP();
+$mail->Host = $env['SMTP_HOST'];
+$mail->SMTPAuth = true;
+$mail->Username = $env['SMTP_USER'];
+$mail->Password = $env['SMTP_PASS'];
+$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+$mail->Port = $env['SMTP_PORT'];
+$mail->CharSet = 'UTF-8';
+```
 
-### E-posta Şablonları
+## 👨‍💼 Yönetici Paneli
 
-E-posta şablonları `admin/approve_payment.php` dosyasında bulunmaktadır. HTML formatını ve içeriği ihtiyaçlarınıza göre düzenleyebilirsiniz.
+### Erişim Bilgileri
+- URL: `https://siteadi.com/admin`
+- Varsayılan Kullanıcı: `admin`
+- Varsayılan Şifre: `admin123`
 
-### Tasarım
+### Temel İşlemler
+1. Çekiliş Yönetimi
+   - Yeni çekiliş oluşturma
+   - Mevcut çekilişleri düzenleme
+   - Çekiliş durumunu değiştirme
 
-CSS stilleri her sayfanın başında bulunmaktadır. İhtiyaçlarınıza göre özelleştirebilirsiniz.
+2. Bilet İşlemleri
+   - Bilet satışlarını görüntüleme
+   - Bilet durumlarını güncelleme
+   - Satış raporları alma
 
-## Sorun Giderme
+3. Ödeme Takibi
+   - Bekleyen ödemeleri görüntüleme
+   - Ödemeleri onaylama/reddetme
+   - Ödeme geçmişini inceleme
 
-1. Hata günlüklerini kontrol edin:
+## 🔒 Güvenlik
+
+### Önemli Güvenlik Önlemleri
+1. `.env` dosyasını public dizinin dışında tutun
+2. Varsayılan yönetici şifresini hemen değiştirin
+3. SSL sertifikası kullanın
+4. Düzenli güvenlik güncellemeleri yapın
+5. Veritabanı yedeklerini alın
+
+### Güvenlik Kontrol Listesi
+- [ ] `.env` dosyası güvende
+- [ ] Yönetici şifresi değiştirildi
+- [ ] SSL sertifikası aktif
+- [ ] Dosya izinleri doğru ayarlandı
+- [ ] Hata günlükleri kontrol ediliyor
+
+## 🔍 Sorun Giderme
+
+### Sık Karşılaşılan Sorunlar
+
+1. SMTP Hataları
 ```bash
+# SMTP bağlantısını test edin
+php tests/smtp_test.php
+```
+
+2. Veritabanı Bağlantı Sorunları
+```bash
+# Veritabanı bağlantısını test edin
+php tests/db_test.php
+```
+
+3. Dosya İzinleri
+```bash
+# İzinleri kontrol edin
+ls -la
+```
+
+### Hata Günlükleri
+```bash
+# Son hataları görüntüleyin
 tail -f error.log
 ```
 
-2. Veritabanı bağlantısını test edin:
-```php
-php -r "include '.env'; $pdo = new PDO(...);"
-```
+## 📘 Sık Sorulan Sorular
 
-3. SMTP ayarlarını test edin:
-```php
-php -r "include 'test_smtp.php';"
-```
+1. **Bilet numaraları nasıl oluşturuluyor?**
+   - Benzersiz ve sıralı bilet numaraları otomatik oluşturulur
 
-## Lisans
+2. **Ödeme süresi nasıl ayarlanır?**
+   - `.env` dosyasından `PAYMENT_TIMEOUT` değerini değiştirin
 
-Bu proje MIT lisansı altında lisanslanmıştır. Detaylar için `LICENSE` dosyasına bakın.
+3. **E-posta şablonları nasıl özelleştirilir?**
+   - `admin/approve_payment.php` dosyasındaki HTML şablonunu düzenleyin
 
-## Destek
+## 📞 Destek
 
-Sorunlar için Issues bölümünü kullanabilir veya doğrudan iletişime geçebilirsiniz. 
+Sorunlarınız için:
+1. GitHub Issues bölümünü kullanın
+2. Dokümantasyonu kontrol edin
+3. E-posta ile iletişime geçin
+
+## 📄 Lisans
+
+Bu proje MIT lisansı altında lisanslanmıştır. Detaylar için `LICENSE` dosyasına bakın. 
